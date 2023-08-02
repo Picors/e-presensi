@@ -1,20 +1,18 @@
 <!-- App Bottom Menu -->
 <div class="appBottomMenu">
-    <a href="#" class="item">
+    <a href="/dashboard" class="item {{ request()->is('dashboard') ? 'active' : ''}}">
         <div class="col">
-            <ion-icon name="file-tray-full-outline" role="img" class="md hydrated"
-                aria-label="file tray full outline"></ion-icon>
-            <strong>Menu</strong>
+            <ion-icon name="menu-outline"></ion-icon>
+            <strong>Home</strong>
         </div>
     </a>
-    <a href="#" class="item active">
+    <a href="#" class="item">
         <div class="col">
-            <ion-icon name="calendar-outline" role="img" class="md hydrated"
-                aria-label="calendar outline"></ion-icon>
+            <ion-icon name="calendar-outline"></ion-icon>
             <strong>Calendar</strong>
         </div>
     </a>
-    <a href="#" class="item">
+    <a href="/presensi/create" class="item">
         <div class="col">
             <div class="action-button large">
                 <ion-icon name="camera" role="img" class="md hydrated" aria-label="add outline"></ion-icon>

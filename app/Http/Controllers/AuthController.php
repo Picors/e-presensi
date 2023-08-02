@@ -16,7 +16,11 @@ class AuthController extends Controller
                 echo "berhasil login";
                 return redirect('/dashboard');
             }else {
+<<<<<<< HEAD
                 return redirect('/')->with(['warning'=>'nik / Password Salah']);
+=======
+                return redirect('/')->with(['warning'=>'Nik / Password Salah']);
+>>>>>>> 59b153b6d34264805f5ea974c9d5398849b8bc3d
             }
         }
         public function proseslogout()
