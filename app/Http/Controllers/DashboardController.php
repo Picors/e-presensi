@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class DasboardController extends Controller
+class DashboardController extends Controller
 {
     public function index()
     {
-        return view('dasboard.dasboard');
+        return view('dashboard.dashboard');
     }
 
     public function dashboardadmin(){
-        return view('dashboardadmin');
+        return view('dashboard.dashboardadmin');
     }
 }

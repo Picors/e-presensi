@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DasboardController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,4 +28,4 @@ Route::middleware(['guest:user'])->group(function(){
     })->name('loginadmin');
 });
 
-Route::get('/dashboardadmin' [DasboardController::class, 'dashboardadmin']);
+Route::get('/dashboardadmin', [DashboardController::class, 'dashboardadmin']);
