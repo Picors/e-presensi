@@ -21,3 +21,11 @@ Route::get('/', function () {
 
 Route::get('/dasboard',[DasboardController::class,'index']);
 Route::post('/proseslogin',[AuthController::class,'proseslogin']);
+
+Route::middleware(['guest:user'])->group(function(){
+    Route::get('/panel', function(){
+        return view('auth.loginadmin');
+    })->name('loginadmin');
+});
+
+Route::get('/dashboardadmin' [DasboardController::class, 'dashboardadmin']);
