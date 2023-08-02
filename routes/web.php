@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DasboardController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,8 +24,21 @@ Route::middleware(['guest:karyawan'])->group(function (){
     Route::post('/proseslogin',[AuthController::class,'proseslogin']);
 });
 
+<<<<<<< HEAD
 Route::middleware(['auth:karyawan'])->group(function (){
     Route::get('/dasboard',[DasboardController::class,'index']);
     Route::get('/proseslogout',[AuthController::class,'proseslogout']);
 
 });
+=======
+Route::get('/dasboard',[DasboardController::class,'index']);
+Route::post('/proseslogin',[AuthController::class,'proseslogin']);
+
+Route::middleware(['guest:user'])->group(function(){
+    Route::get('/panel', function(){
+        return view('auth.loginadmin');
+    })->name('loginadmin');
+});
+
+Route::get('/dashboardadmin', [DashboardController::class, 'dashboardadmin']);
+>>>>>>> 5dbac303f3eac93f084bd9429e156112b6cc0734
