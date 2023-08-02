@@ -13,7 +13,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Dashboard - Tabler - Premium and Open Source dashboard template with responsive and high quality UI.</title>
+    <title>Dashboard - Admin</title>
     <script defer data-api="/stats/api/event" data-domain="preview.tabler.io" src="/stats/js/script.js"></script>
     <meta name="msapplication-TileColor" content=""/>
     <meta name="theme-color" content=""/>
@@ -22,8 +22,8 @@
     <meta name="mobile-web-app-capable" content="yes"/>
     <meta name="HandheldFriendly" content="True"/>
     <meta name="MobileOptimized" content="320"/>
-    <link rel="icon" href="./favicon.ico" type="image/x-icon"/>
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon"/>
+    <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}" type="image/x-icon"/>
     <meta name="description" content="Tabler comes with tons of well-designed components and features. Start your adventure with Tabler and make your dashboard great again. For free!"/>
     <meta name="canonical" content="https://preview.tabler.io/layout-combo.html">
     <meta name="twitter:image:src" content="https://preview.tabler.io/static/og.png">

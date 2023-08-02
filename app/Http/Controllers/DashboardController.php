@@ -14,4 +14,14 @@ class DashboardController extends Controller
     public function dashboardadmin(){
         return view('dashboard.dashboardadmin');
     }
+
+    // public function dashboardadmin()
+    // {
+    //     $hariini = date("Y-m-d");
+    //     $rekappresensi = DB::table('presensi')
+    //         ->selectRaw('COUNT(nik) as jmlhadir, SUM(if(jam_in > "07:00",1,0)) as jmlterlambat')
+    //         ->where('tgl_presensi', $hariini)
+    //         ->first();
+    //     return view('dashboard.dashboardadmin',compact('rekappresensi'));
+    // }
 }

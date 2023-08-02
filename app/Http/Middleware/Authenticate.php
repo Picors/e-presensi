@@ -12,11 +12,11 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        if(!$request()->expectsJson()){
-            if(request()->is('panel/*')){
-                return route('loginadmin');
-            }else{
-                return route('login');
+        if (!$request->expectsJson()) {
+            if ($request->is('panel/*')) {
+                return route('loginadmin'); // Redirect ke halaman login admin
+            } else {
+                return route('login'); // Redirect ke halaman login karyawan
             }
         }
     }
