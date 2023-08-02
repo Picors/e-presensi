@@ -68,6 +68,11 @@
               <div class="card card-md">
                 <div class="card-body">
                   <h2 class="h2 text-center mb-4">Login to your account</h2>
+                  @if(Session::get('warning'))
+                    <div class="alert alert-warning">
+                      <p>{{ Session::get('warning') }}</p>
+                    </div>
+                  @endif
                   <form action="/prosesloginadmin" method="post" autocomplete="off" novalidate>
                     @csrf
                     <div class="mb-3">

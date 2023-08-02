@@ -40,6 +40,8 @@ Route::middleware(['guest:user'])->group(function (){
     })->name('loginadmin');
     Route::post('/prosesloginadmin',[AuthController::class,'prosesloginadmin']);
 });
+
 Route::middleware(['auth:user'])->group(function (){
-    Route::get('/dashboardadmin', [DashboardController::class, 'dashboardadmin']);
+    Route::get('/proseslogoutadmin', [AuthController::class,'proseslogoutadmin']);
+    Route::get('/panel/dashboardadmin', [DashboardController::class, 'dashboardadmin']);
 });
