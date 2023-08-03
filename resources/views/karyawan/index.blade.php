@@ -25,7 +25,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control" placeholder="Nama Karyawan">
+                                                <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control" placeholder="Nama Karyawan" value="{{ Request('nama_lengkap') }}">
                                             </div>
                                         </div>
                                         <div class="col-4">
@@ -33,7 +33,7 @@
                                                 <select name="kode_dept" id="kode_dept" class="form-select">
                                                     <option value="">Departemen</option>
                                                     @foreach ($departemen as $dept)
-                                                        <option value="{{ $dept->kode_dept }}">{{ $dept->nama_dept }}</option>
+                                                        <option {{ Request('kode_dept')==$dept->kode_dept ? 'selected' : '' }} value="{{ $dept->kode_dept }}">{{ $dept->nama_dept }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

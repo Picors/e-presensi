@@ -27,7 +27,7 @@
 @section('content')
 <div class="row" style="margin-top: 70px">
 <div class="col">
-    <input type="hidden" id="lokasi">
+    <input type="text" id="lokasi">
     <div class="webcam-capture"></div>
     </div>
 </div>
@@ -53,7 +53,7 @@
 
     var lokasi = document.getElementById('lokasi');
     if(navigator.geolocation){
-        navigator.geolocation,getCurrentPosition(successCallback, errorCallback);
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
     }
 
     function successCallback(position){
