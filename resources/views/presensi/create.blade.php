@@ -22,10 +22,10 @@
 
     }
 
-    #map { height: 180px;
+    #map { 
+        height: 180px;
     }
 </style>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 @endsection
 @section('content')
@@ -37,14 +37,16 @@
 </div>
 <div class="row">
     <div class="col">
-    <button id="takeabsen" class="btn btn-primary btn-block">
-        <ion-icon name="camera-outline"></ion-icon>
-        Absen Masuk
-    </button>
+        <button id="takeabsen" class="btn btn-primary btn-block">
+            <ion-icon name="camera-outline"></ion-icon>
+            Absen Masuk
+        </button>
+    </div>
 </div>
 <div class="row mt-2">
     <div class="col">
         <div id="map"></div>
+    </div>
 </div>
 @endsection
 
