@@ -22,7 +22,7 @@
 
     }
 
-    #map { 
+    #map {
         height: 180px;
     }
 </style>
@@ -31,7 +31,7 @@
 @section('content')
 <div class="row" style="margin-top: 70px">
 <div class="col">
-    <input type="text" id="lokasi">
+    <input type="hidden" id="lokasi">
     <div class="webcam-capture"></div>
     </div>
 </div>
@@ -68,11 +68,18 @@
 
     function successCallback(position){
         lokasi.value = position.coords.latitude + "," + position.coords.longitude;
-        var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 13);
+        var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 18);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap'
         }).addTo(map);
+        var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
+            var circle = L.circle([position.coords.latitude, position.coords.longitude], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 20
+}).addTo(map);
     }
 
     function errorCallback() {
