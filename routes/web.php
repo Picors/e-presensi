@@ -49,4 +49,5 @@ Route::middleware(['auth:user'])->group(function (){
 
     //karyawan
     Route::get('/karyawan',[KaryawanController::class, 'index']);
+    Route::get('/karyawan/store',[KaryawanController::class, 'index']);
 });

@@ -25,4 +25,12 @@ class KaryawanController extends Controller
         $departemen = DB::table('departemen')->get();
         return view('karyawan.index', compact('karyawan', 'departemen'));
     }
+
+    public function store(Request $request)
+    {
+        $nik = $request->nik;
+        $nik = $request->nik;
+        $nik = $request->nik;
+        $nik = $request->nik;
+    }
 }
