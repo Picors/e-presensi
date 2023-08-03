@@ -85,5 +85,24 @@
     function errorCallback() {
 
     }
+    $("#takeabsen").click(function(e) {
+        Webcam.snap(function(uri){
+            image = uri;
+        });
+        var lokasi = $("#lokasi").val();
+        $.ajax({
+            type:'POST',
+            url:'/presensi/store',
+            data:{
+                _token:"{{ csrf_token() }}",
+                image:image,
+                lokasi:lokasi,
+            },
+            cache:false,
+            success:function(respond){
+
+            }
+        });
+    });
 </script>
 @endpush
