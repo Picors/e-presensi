@@ -67,5 +67,15 @@ class KaryawanController extends Controller
 
         }
     }
+
+    public function edit(Request $request)
+    {
+        $nik = $request->nik;
+        $departemen = DB::table('departemen')->get();
+        $karyawan = DB::table('karyawan')->where('nik', $nik)->first();
+        return view('karyawan.edit', compact('departemen', 'karyawan'));
+    }
+    public function update($nik, Request $request){
+        
+    }
 }
-?>

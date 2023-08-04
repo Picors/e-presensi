@@ -115,7 +115,16 @@
                                                     @endif
                                                 </td>
                                                 <td>{{ $kry->nama_dept }}</td>
-                                                <td></td>
+                                                <td>
+                                                    <a href="#" class="edit" nik="{{ $kry->nik }}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                                            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                                            <path d="M16 5l3 3"></path>
+                                                         </svg>
+                                                    </a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -133,6 +142,8 @@
         </div>
     </div>
   </div>
+
+  {{-- Modal Tambah Karyawan --}}
   <div class="modal modal-blur fade" id="modal-inputkaryawan" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -241,6 +252,21 @@
       </div>
     </div>
   </div>
+
+  {{-- Modal Edit Karyawan --}}
+  <div class="modal modal-blur fade" id="modal-editkaryawan" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Data Karyawan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="loadeditform">
+
+        </div> 
+      </div>
+    </div>
+  </div>
 @endsection   
 
 @push('myscript')
@@ -248,6 +274,23 @@
         $(function(){
             $("#btntambahkaryawan").click(function(){
                 $("#modal-inputkaryawan").modal("show");
+            });
+
+            $(".edit").click(function(){
+                var nik = $(this).attr('nik');
+                $.ajax({
+                    type: 'POST',
+                    url: '/karyawan/edit',
+                    cache: false,
+                    data: {
+                        _token: "{{ csrf_token(); }}",
+                        nik: nik
+                    },
+                    success: function(respond){
+                        $("#loadeditform").html(respond);
+                    }
+                });
+                $("#modal-editkaryawan").modal("show");
             });
 
             $("#formKaryawan").submit(function(){
