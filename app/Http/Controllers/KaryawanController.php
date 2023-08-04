@@ -36,11 +36,10 @@ class KaryawanController extends Controller
         $no_hp = $request->no_hp;
         $kode_dept = $request->kode_dept;
         $password = Hash::make('12345');
-        $karyawan = DB::table('karyawan')->where('nik', $nik)->first();
         if ($request->hasFile('foto')){
             $foto = $nik . '.' . $request->file('foto')->getClientOriginalExtension();
         } else {
-            $foto = $karyawan->foto;
+            $foto = null; 
         }
 
         try {
@@ -49,9 +48,9 @@ class KaryawanController extends Controller
                 'nama_lengkap' => $nama_lengkap,
                 'jabatan' => $jabatan,
                 'no_hp' => $no_hp,
-                'kode_dept' => $kode_dept,
                 'foto' => $foto,
                 'password'=> $password,
+                'kode_dept' => $kode_dept
             ];
             $simpan = DB::table('karyawan')->insert($data);
 
@@ -60,11 +59,13 @@ class KaryawanController extends Controller
                     $folderPath = "public/uploads/karyawan/";
                     $request->file('foto')->storeAs($folderPath, $foto); 
                 }
-                return Redirect::back()->with(['successs'=> 'Data Berhasil Disimpan']);
+                return Redirect::back()->with(['success'=> 'Data Berhasil Disimpan']);
             }
         } catch (\Exception $e) {
+
             return Redirect::back()->with(['warning'=> 'Data Gagal Disimpan']);
 
         }
     }
 }
+?>
