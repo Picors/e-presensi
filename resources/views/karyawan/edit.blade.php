@@ -67,6 +67,7 @@
     <div class="row mt-2">
         <div class="col-12">
             <input type="file" name="foto" class="form-control">
+            <input type="hidden" name="old_foto" value="{{ $karyawan->foto }}">
         </div>
     </div>
     <div class="row mt-3">
