@@ -66,5 +66,11 @@ class PresensiController extends Controller
 
     }
 
+
+    // monitoring Presensi
+    public function monitoring()
+    {
+        return view('presensi.monitoring');
+    }
 }
 

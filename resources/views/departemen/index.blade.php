@@ -6,7 +6,7 @@
         <div class="col">
           <!-- Page pre-title -->
           <h2 class="page-title">
-            Data Karyawan
+            Data Departemen
           </h2>
         </div>
       </div>
@@ -36,7 +36,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <a href="#" class="btn btn-primary" id="btntambahkaryawan">
+                                <a href="#" class="btn btn-primary" id="btntambahdepartemen">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M12 5l0 14"></path>
@@ -48,21 +48,11 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-12">
-                                <form action="/karyawan" method="GET">
+                                <form action="/departemen" method="GET">
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-10">
                                             <div class="form-group">
-                                                <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control" placeholder="Nama Karyawan" value="{{ Request('nama_lengkap') }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="form-group">
-                                                <select name="kode_dept" id="kode_dept" class="form-select">
-                                                    <option value="">Departemen</option>
-                                                    @foreach ($departemen as $dept)
-                                                        <option {{ Request('kode_dept')==$dept->kode_dept ? 'selected' : '' }} value="{{ $dept->kode_dept }}">{{ $dept->nama_dept }}</option>
-                                                    @endforeach
-                                                </select>
+                                                <input type="text" name="nama_dept" id="nama_dept" class="form-control" placeholder="Departemen" value="{{ Request('nama_dept') }}">
                                             </div>
                                         </div>
                                         <div class="col-2">
@@ -87,93 +77,70 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>NIK</th>
-                                            <th>Nama</th>
-                                            <th>Jabatan</th>
-                                            <th>No. HP</th>
-                                            <th>Foto</th>
-                                            <th>Departemen</th>
+                                            <th>Kode Departemen</th>
+                                            <th>Nama Departemen</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($karyawan as $kry)
-                                        @php
-                                            $path = Storage::url('uploads/karyawan/'.$kry->foto);
-                                        @endphp
-                                            <tr>
-                                                <td>{{ $loop->iteration + $karyawan->firstItem()-1 }}</td>
-                                                <td>{{ $kry->nik }}</td>
-                                                <td>{{ $kry->nama_lengkap }}</td>
-                                                <td>{{ $kry->jabatan }}</td>
-                                                <td>{{ $kry->no_hp }}</td>
-                                                <td>
-                                                    @if (empty($kry->foto))
-                                                        <img src="{{ asset('assets/img/nopoto.jpg') }}" class="avatar" alt="">
-                                                    @else
-                                                        <img src="{{ url($path) }}" class="avatar" alt="">
-                                                    @endif
-                                                    
-                                                </td>
-                                                <td>{{ $kry->nama_dept }}</td>
-                                                <td>
-                                                    <div class="btn-group">
-                                                        <style>
-                                                            .btn-edit,
-                                                            .btn-delete {
-                                                                width: 30px; /* Sesuaikan lebar yang diinginkan */
-                                                                height: 30px; /* Sesuaikan tinggi yang diinginkan */
-                                                            }
-                                                        </style>
-                                                        <a href="#" class="edit btn btn-info btn-sm btn-edit" nik="{{ $kry->nik }}">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        @foreach ($departemen as $dept)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $dept->kode_dept }}</td>
+                                            <td>{{ $dept->nama_dept }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <style>
+                                                        .btn-edit,
+                                                        .btn-delete {
+                                                            width: 30px; /* Sesuaikan lebar yang diinginkan */
+                                                            height: 30px; /* Sesuaikan tinggi yang diinginkan */
+                                                        }
+                                                    </style>
+                                                    <a href="#" class="edit btn btn-info btn-sm btn-edit" kode_dept="{{ $dept->kode_dept }}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                                            <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                                            <path d="M16 5l3 3"></path>
+                                                         </svg>
+                                                    </a>
+                                                    <form action="/departemen/{{ $dept->kode_dept }}/delete" style="margin-left:5px" method="POST">
+                                                        @csrf
+                                                        <a class="btn btn-danger btn-sm delete-confirm btn-delete">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
-                                                                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
-                                                                <path d="M16 5l3 3"></path>
+                                                                <path d="M20 6a1 1 0 0 1 .117 1.993l-.117 .007h-.081l-.919 11a3 3 0 0 1 -2.824 2.995l-.176 .005h-8c-1.598 0 -2.904 -1.249 -2.992 -2.75l-.005 -.167l-.923 -11.083h-.08a1 1 0 0 1 -.117 -1.993l.117 -.007h16z" stroke-width="0" fill="currentColor"></path>
+                                                                <path d="M14 2a2 2 0 0 1 2 2a1 1 0 0 1 -1.993 .117l-.007 -.117h-4l-.007 .117a1 1 0 0 1 -1.993 -.117a2 2 0 0 1 1.85 -1.995l.15 -.005h4z" stroke-width="0" fill="currentColor"></path>
                                                              </svg>
                                                         </a>
-                                                        <form action="/karyawan/{{ $kry->nik }}/delete" style="margin-left:5px" method="POST">
-                                                            @csrf
-                                                            <a class="btn btn-danger btn-sm delete-confirm btn-delete">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                    <path d="M20 6a1 1 0 0 1 .117 1.993l-.117 .007h-.081l-.919 11a3 3 0 0 1 -2.824 2.995l-.176 .005h-8c-1.598 0 -2.904 -1.249 -2.992 -2.75l-.005 -.167l-.923 -11.083h-.08a1 1 0 0 1 -.117 -1.993l.117 -.007h16z" stroke-width="0" fill="currentColor"></path>
-                                                                    <path d="M14 2a2 2 0 0 1 2 2a1 1 0 0 1 -1.993 .117l-.007 -.117h-4l-.007 .117a1 1 0 0 1 -1.993 -.117a2 2 0 0 1 1.85 -1.995l.15 -.005h4z" stroke-width="0" fill="currentColor"></path>
-                                                                 </svg>
-                                                            </a>
-                                                        </form>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                            
                                         @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        
-                        <div class="d-flex justify-content-end">
-                            {{ $karyawan->links() }}
-                        </div>
                     </div>
                 </div>
-                
             </div>
         </div>
     </div>
   </div>
 
-  {{-- Modal Tambah Karyawan --}}
-  <div class="modal modal-blur fade" id="modal-inputkaryawan" tabindex="-1" role="dialog" aria-hidden="true">
+  {{-- Modal Tambah Departemen --}}
+  <div class="modal modal-blur fade" id="modal-inputdepartemen" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Tambah Data Karyawan</h5>
+          <h5 class="modal-title">Tambah Data Departemen</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="/karyawan/store" method="POST" id="formKaryawan" enctype="multipart/form-data">
+          <form action="/departemen/store" method="POST" id="formDepartemen">
             @csrf
             <div class="row">
                 <div class="col-12">
@@ -192,7 +159,7 @@
                             <path d="M19 11l0 2"></path>
                          </svg>
                         </span>
-                        <input type="text" value="" id="nik" class="form-control" name="nik" placeholder="NIK">
+                        <input type="text" value="" id="kode_dept" class="form-control" name="kode_dept" placeholder="Kode Departemen">
                       </div>
                 </div>
             </div>
@@ -201,57 +168,19 @@
                     <div class="input-icon mb-3">
                         <span class="input-icon-addon">
                           <!-- Download SVG icon from http://tabler-icons.io/i/user -->
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path></svg>
-                        </span>
-                        <input type="text" value="" id="nama_lengkap" class="form-control" name="nama_lengkap" placeholder="Username">
-                      </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="input-icon mb-3">
-                        <span class="input-icon-addon">
-                          <!-- Download SVG icon from http://tabler-icons.io/i/user -->
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-analytics" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-building-estate" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path d="M3 4m0 1a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1z"></path>
-                            <path d="M7 20l10 0"></path>
-                            <path d="M9 16l0 4"></path>
-                            <path d="M15 16l0 4"></path>
-                            <path d="M8 12l3 -3l2 2l3 -3"></path>
+                            <path d="M3 21h18"></path>
+                            <path d="M19 21v-4"></path>
+                            <path d="M19 17a2 2 0 0 0 2 -2v-2a2 2 0 1 0 -4 0v2a2 2 0 0 0 2 2z"></path>
+                            <path d="M14 21v-14a3 3 0 0 0 -3 -3h-4a3 3 0 0 0 -3 3v14"></path>
+                            <path d="M9 17v4"></path>
+                            <path d="M8 13h2"></path>
+                            <path d="M8 9h2"></path>
                          </svg>
                         </span>
-                        <input type="text" value="" id="jabatan" class="form-control" name="jabatan" placeholder="Jabatan">
+                        <input type="text" value="" id="nama_dept" class="form-control" name="nama_dept" placeholder="Nama Departemen">
                       </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="input-icon mb-3">
-                        <span class="input-icon-addon">
-                          <!-- Download SVG icon from http://tabler-icons.io/i/user -->
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-phone" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"></path>
-                         </svg>
-                        </span>
-                        <input type="text" value="" id="no_hp" class="form-control" name="no_hp" placeholder="No. HP">
-                      </div>
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-12">
-                    <input type="file" name="foto" class="form-control">
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-12">
-                    <select name="kode_dept" id="kode_dept" class="form-select">
-                        <option value="">Departemen</option>
-                        @foreach ($departemen as $dept)
-                            <option {{ Request('kode_dept')==$dept->kode_dept ? 'selected' : '' }} value="{{ $dept->kode_dept }}">{{ $dept->nama_dept }}</option>
-                        @endforeach
-                    </select>
                 </div>
             </div>
             <div class="row mt-3">
@@ -275,11 +204,11 @@
   </div>
 
   {{-- Modal Edit Karyawan --}}
-  <div class="modal modal-blur fade" id="modal-editkaryawan" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal modal-blur fade" id="modal-editdepartemen" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Edit Data Karyawan</h5>
+          <h5 class="modal-title">Edit Data Departemen</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" id="loadeditform">
@@ -293,32 +222,32 @@
 @push('myscript')
     <script>
         $(function(){
-            $("#btntambahkaryawan").click(function(){
-                $("#modal-inputkaryawan").modal("show");
+            $("#btntambahdepartemen").click(function(){
+                $("#modal-inputdepartemen").modal("show");
             });
 
             $(".edit").click(function(){
-                var nik = $(this).attr('nik');
+                var kode_dept = $(this).attr('kode_dept');
                 $.ajax({
                     type: 'POST',
-                    url: '/karyawan/edit',
+                    url: '/departemen/edit',
                     cache: false,
                     data: {
                         _token: "{{ csrf_token(); }}",
-                        nik: nik
+                        kode_dept: kode_dept
                     },
                     success: function(respond){
                         $("#loadeditform").html(respond);
                     }
                 });
-                $("#modal-editkaryawan").modal("show");
+                $("#modal-editdepartemen").modal("show");
             });
 
             $(".delete-confirm").click(function(e){
                 var form = $(this).closest("form");
                 e.preventDefault();
                 Swal.fire({
-                    title: 'Apakah Yakin Menghapus Karyawan?',
+                    title: 'Apakah Yakin Menghapus Departemen?',
                     text: "Data Yang Dihapus Akan Terhapus Permanent",
                     icon: 'warning',
                     showCancelButton: true,
