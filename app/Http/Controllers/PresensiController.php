@@ -57,7 +57,7 @@ class PresensiController extends Controller
             ];
             $simpan = DB::table('presensi')->insert($data);
                 if($simpan){
-                    echo "success|Selamat Bekerja :)|in";
+                    echo "success|Terima Kaish,Selamat Bekerja :)|in";
                     Storage::put($file, $image_base64);
                 } else {
                     echo "error|Maaf Gagal Absen Hubungi Tim IT|in";
