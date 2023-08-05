@@ -49,6 +49,7 @@
                                                 <th>Foto</th>
                                                 <th>Jam Pulang</th>
                                                 <th>Foto</th>
+                                                <th>Keterangan</th>
                                             </tr>
                                         </thead>
                                         <tbody id="loadpresensi">
@@ -74,6 +75,7 @@
             todayHighlight: true,
             format: "yyyy-mm-dd",
         });
+
         $("#tanggal").change(function (e) {
             var tanggal = $(this).val();
             $.ajax({
@@ -82,7 +84,7 @@
                 data : {
                     _token : "{{ csrf_token() }}",
                     tanggal : tanggal,
-                }
+                },
                 cache: false,
                 success: function (respond){
                     $("#loadpresensi").html(respond);
