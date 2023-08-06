@@ -63,12 +63,20 @@
 <div class="section mt-2" id="presence-section">
     <div class="todaypresence">
         <div class="row">
+
             <div class="col-6">
                 <div class="card gradasigreen">
                     <div class="card-body">
                         <div class="presencecontent">
                             <div class="iconpresence">
-                                <ion-icon name="camera"></ion-icon>
+                                @if($presensihariini !== null )
+                                    @php
+                                    $path = Storage::url('uploads/absensi/'.$presensihariini->foto_in);
+                                    @endphp
+                                    <img src = "{{ url($path) }}" alt="" class = "imaged w64">
+                                @else
+                                    <ion-icon name="camera"></ion-icon>
+                                @endif
                             </div>
                             <div class="presencedetail">
                                 <h4 class="presencetitle">Masuk</h4>
@@ -83,11 +91,19 @@
                     <div class="card-body">
                         <div class="presencecontent">
                             <div class="iconpresence">
-                                <ion-icon name="camera"></ion-icon>
+                                @if($presensihariini !== null && $presensihariini->jam_out !== null )
+                                    @php
+                                        $path = Storage::url('uploads/absensi/'.$presensihariini->foto_out);
+                                    @endphp
+                                        <img src = "{{ url($path) }}" alt="" class = "imaged w64">
+                                    @else
+                                            <ion-icon name="camera"></ion-icon>
+
+                                   @endif
                             </div>
-                            <div class="presencedetail">
-                                <h4 class="presencetitle">Pulang</h4>
-                                <span>12:00</span>
+                            <div class="presensidetail">
+                                <h4 class="presensititle">Pulang</h4>
+                                <span>{{ $presensihariini !== null && $presensihariini->jam_out !== null ? $presensihariini->jam_out : 'Belum Absen' }}</span>
                             </div>
                         </div>
                     </div>
