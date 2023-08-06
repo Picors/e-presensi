@@ -1,6 +1,5 @@
 @extends('layouts.admin.tabler')
 @section('content')
-
 <div class="page-header d-print-none">
     <div class="container-xl">
         <div class="row g-2 align-items-center">
@@ -32,7 +31,7 @@
                                                 <path d="M8 15h2v2h-2z"></path>
                                              </svg>
                                         </span>
-                                        <input type="text" name="tanggal" id="tanggal" class="form-control" placeholder="Tanggal Presensi" autocomplete="off">
+                                        <input type="text" name="tanggal" id="tanggal" value="{{ date("Y-m-d") }}" class="form-control" placeholder="Tanggal Presensi" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
@@ -50,6 +49,7 @@
                                                 <th>Jam Pulang</th>
                                                 <th>Foto</th>
                                                 <th>Keterangan</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody id="loadpresensi">
@@ -65,6 +65,19 @@
         </div>
     </div>
 </div>
+<div class="modal modal-blur fade" id="modal-tampilkanmaps" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Lokasi Presensi User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="loadmaps">
+
+        </div> 
+      </div>
+    </div>
+  </div>
 @endsection
 
 @push('myscript')
@@ -76,8 +89,8 @@
             format: "yyyy-mm-dd",
         });
 
-        $("#tanggal").change(function (e) {
-            var tanggal = $(this).val();
+        function loadpresensi(){
+            var tanggal = $('#tanggal').val();
             $.ajax({
                 type: "POST",
                 url: '/getpresensi',
@@ -90,6 +103,10 @@
                     $("#loadpresensi").html(respond);
                 }
             });
+        }
+
+        $("#tanggal").change(function (e) {
+            loadpresensi();
         });
     });
 </script>
