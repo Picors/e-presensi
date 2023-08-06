@@ -103,6 +103,7 @@ class PresensiController extends Controller
         return view('presensi.monitoring');
     }
 
+    //menampilkan data presensi
     public function getpresensi(Request $request)
     {
         $tanggal = $request->tanggal;
@@ -114,6 +115,16 @@ class PresensiController extends Controller
             ->get();
         
             return view('presensi.getpresensi', compact('presensi'));
+    }
+
+    //menampilkan Maps karyawan presensi
+    public function tampilkanmaps(Request $request)
+    {
+        $id = $request->id;
+        $presensi = DB::table('presensi')->where('id', $id)
+            ->join('karyawan', 'presensi.nik', '=', 'karyawan.nik')
+            ->first();
+        return view('presensi.showmaps', compact('presensi'));
     }
 }
 
