@@ -133,5 +133,21 @@ class PresensiController extends Controller
             ->first();
         return view('presensi.showmaps', compact('presensi'));
     }
+
+    public function laporan()
+    {
+        $namabulan = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        $karyawan = DB::table('karyawan')->orderBy('nama_lengkap')->get();
+        return view('presensi.laporan', compact('namabulan', 'karyawan'));
+    }
+
+    public function cetaklaporan(Request $request)
+    {
+        $nik = $request->nik;
+        $bulan = $request->bulan;
+        $tahun = $request->tahun;
+
+        return view('presensi.cetaklaporan');
+    }
 }
 
