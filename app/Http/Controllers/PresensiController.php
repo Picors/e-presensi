@@ -25,8 +25,8 @@ class PresensiController extends Controller
         $tgl_presensi = date("Y-m-d");
         $jam = date("H:i:s");
 
-        $latitudekantor = -6.238516863147826;
-        $longitudekantor =  106.81152332345424;
+        $latitudekantor = -6.160769665019912;
+        $longitudekantor =   106.86282574232742;
         $lokasi = $request->lokasi;
         $lokasiuser = explode(",", $lokasi);
         $latitudeuser = $lokasiuser[0];

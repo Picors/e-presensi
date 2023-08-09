@@ -95,7 +95,7 @@
                             <div class="iconpresence">
                                 @if($presensihariini !== null && $presensihariini->jam_out !== null )
                                     @php
-                                        $path = Storage::url('/uploads/absensi/'.$presensihariini->foto_out);
+                                        $path = Storage::url('uploads/absensi/'.$presensihariini->foto_out);
                                     @endphp
 
                                     <img src = "{{ url($path) }}" alt="" class = "imaged w64">
@@ -134,15 +134,18 @@
             <div class="tab-pane fade show active" id="home" role="tabpanel">
                 <ul class="listview image-listview">
                     @foreach ($historibulanini as $d)
+                    @php
+                        $path = Storage::url('uploads/absensi/' . $d->foto_in);
+                    @endphp
                     <li>
                         <div class="item">
                             <div class="icon-box bg-primary">
-                                <ion-icon name="image-outline" role="img" class="md hydrated"
-                                    aria-label="image outline"></ion-icon>
+                                <ion-icon name="finger-print-outline"></ion-icon>
                             </div>
                             <div class="in">
                                 <div>{{date("d-m-y",strtotime($d->tgl_presensi))}}</div>
-                                <span class="badge badge-danger">10</span>
+                                <span class="badge badge-success">{{ $d->jam_in }}</span>
+                                <span class="badge badge-danger">{{ $presensihariini !== null &&  $d->jam_out !== null ? $d->jam_out : 'Belum Absen'}}</span>
                             </div>
                         </div>
                     </li>
