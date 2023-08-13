@@ -31,17 +31,24 @@ Route::middleware(['guest:karyawan'])->group(function (){
 Route::middleware(['auth:karyawan'])->group(function (){
     Route::get('/dashboard',[DashboardController::class,'index']);
     Route::get('/proseslogout',[AuthController::class,'proseslogout']);
+
+    //presensi
+    Route::get('/presensi/create',[PresensiController::class,'create']);
+    Route::post('/presensi/store',[PresensiController::class,'store']);
+
+    //edit profile
+    Route::get('/editprofile', [PresensiController::class, 'editprofile']);
+    Route::post('/presensi/{nik}/updateprofile',[PresensiController::class,'updateprofile']);
 });
 
-//presensi
-Route::get('/presensi/create',[PresensiController::class,'create']);
-Route::post('/presensi/store',[PresensiController::class,'store']);
+
 
 Route::middleware(['guest:user'])->group(function (){
     Route::get('/panel', function () {
         return view('auth.loginadmin');
     })->name('loginadmin');
     Route::post('/prosesloginadmin',[AuthController::class,'prosesloginadmin']);
+
 });
 
 Route::middleware(['auth:user'])->group(function (){
@@ -56,11 +63,11 @@ Route::middleware(['auth:user'])->group(function (){
     Route::post('/karyawan/{nik}/delete',[KaryawanController::class, 'delete']);
 
     //Departemen
-    Route::get('/departemen', [DepartemenController::class, 'index']); 
-    Route::post('/departemen/store', [DepartemenController::class, 'store']); 
-    Route::post('/departemen/edit', [DepartemenController::class, 'edit']); 
-    Route::post('/departemen/{kode_dept}/update', [DepartemenController::class, 'update']); 
-    Route::post('/departemen/{kode_dept}/delete', [DepartemenController::class, 'delete']); 
+    Route::get('/departemen', [DepartemenController::class, 'index']);
+    Route::post('/departemen/store', [DepartemenController::class, 'store']);
+    Route::post('/departemen/edit', [DepartemenController::class, 'edit']);
+    Route::post('/departemen/{kode_dept}/update', [DepartemenController::class, 'update']);
+    Route::post('/departemen/{kode_dept}/delete', [DepartemenController::class, 'delete']);
 
     //presensi
     Route::get('/presensi/monitoring', [PresensiController::class, 'monitoring']);
@@ -68,4 +75,7 @@ Route::middleware(['auth:user'])->group(function (){
     Route::post('/tampilkanmaps', [PresensiController::class, 'tampilkanmaps']);
     Route::get('/presensi/laporan', [PresensiController::class, 'laporan']);
     Route::post('/presensi/cetaklaporan', [PresensiController::class, 'cetaklaporan']);
+
+
+
 });
