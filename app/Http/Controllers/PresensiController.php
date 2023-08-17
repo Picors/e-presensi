@@ -163,8 +163,6 @@ class PresensiController extends Controller
         ->get();
         return view('presensi.cetaklaporan', compact('bulan', 'tahun', 'namabulan', 'karyawan', 'presensi'));
     }
-
-<<<<<<< HEAD
     public function rekap()
     {
         $namabulan = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
@@ -219,8 +217,7 @@ class PresensiController extends Controller
 
         return view('presensi.cetakrekap', compact('bulan','tahun', 'namabulan','rekap'));
     }
-}
-=======
+
     public function editprofile()
     {
         $nik = Auth::guard('karyawan')->user()->nik;
@@ -325,4 +322,3 @@ class PresensiController extends Controller
         }
     }
 }
->>>>>>> 3e981b08e0b84aeee3a7d63f8e408ed05f23fa69
