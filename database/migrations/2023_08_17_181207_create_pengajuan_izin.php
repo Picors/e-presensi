@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('tgl_izin');
             $table->char('status',1);
             $table->string('keterangan');
-            $table->char('status_approved',1);
+            $table->char('status_approved',1)->nullable(false);
         });
     }
 
