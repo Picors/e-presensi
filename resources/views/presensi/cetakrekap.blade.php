@@ -36,6 +36,7 @@
       border: 1px solid #0a0a0a;
       padding: 8px;
       background-color: #dbdbdb;
+      font-size: 10px;
     }
     .tabelpresensi tr td {
       border: 1px solid #131212;
@@ -52,7 +53,7 @@
 
 <!-- Set "A5", "A4" or "A3" for class name -->
 <!-- Set also "landscape" if you need -->
-<body class="A4">
+<body class="A4 landscape">
 
   @php
       function selisih($jam_masuk, $jam_keluar)
@@ -82,7 +83,7 @@
         </td>
         <td>
           <span id="title">
-            LAPORAN ABSENSI KARYAWAN<br/>
+            REKAP PRESENSI KARYAWAN<br/>
             PERIODE {{ strtoupper( $namabulan[$bulan] )  }} {{ $tahun }}<br/>
             PT.YODYA KARYA PERSERO <br/>
           </span>
@@ -90,96 +91,28 @@
         </td>
       </tr>
     </table>
-    <table class="tabeldatakaryawan">
-      <tr>
-        <td rowspan="6">
-          @php
-              $path = Storage::url('uploads/karyawan/'. $karyawan->foto);
-          @endphp
-          <img src="{{ url($path) }}" width="120px" alt="">
-        </td>
-        <td>NIK</td>
-        <td>:</td>
-        <td>{{ $karyawan->nik }}</td>
-      </tr>
-      <tr>
-        <td>Nama karyawan</td>
-        <td>:</td>
-        <td>{{ $karyawan->nama_lengkap }}</td>
-      </tr>
-      <tr>
-        <td>Jabatan</td>
-        <td>:</td>
-        <td>{{ $karyawan->jabatan }}</td>
-      </tr>
-      <tr>
-        <td>Departemen</td>
-        <td>:</td>
-        <td>{{ $karyawan->nama_dept }}</td>
-      </tr>
-      <tr>
-        <td>No HP</td>
-        <td>:</td>
-        <td>{{ $karyawan->no_hp }}</td>
-      </tr>
-    </table>
+
     <table class="tabelpresensi">
-      <tr>
-        <th>No.</th>
-        <th>Tanggal</th>
-        <th>nik</th>
-        <th>Jam Masuk</th>
-        <th>Foto</th>
-        <th>Jam Pulang</th>
-        <th>Foto</th>
-        <th>Keterangan</th>
-        <th>Jml Jam</th>
-      </tr>
-      @foreach ($presensi as $prs)
-        @php
-        $path_in = Storage::url('uploads/absensi/'. $prs->foto_in);
-        $path_out = Storage::url('uploads/absensi/'. $prs->foto_out);
-        $jamterlambat = selisih('07:00:00', $prs->jam_in);
-        @endphp
         <tr>
-          <td>{{ $loop->iteration }}</td>
-          <td>{{ date("d-m-y", strtotime($prs->tgl_presensi)) }}</td>
-          <td>{{ $prs->nik }}</td>
-          <td>{{ $prs->jam_in }}</td>
-          <td><img src="{{ url($path_in) }}" alt="" class="foto"></td>
-          <td>{{ $prs->jam_out !== null ? $prs->jam_out : 'Belum Absen' }}</td>
-          <td>
-            @if ($prs->jam_out !== null)
-              <img src="{{ url($path_out) }}" alt="" class="foto">
-            @else
-              <img src="{{ asset('assets/img/kamera.png') }}" alt="">
-            @endif
-          </td>
-          <td>
-            @if ($prs->jam_in > '07:00:00')
-              Terlambat {{ $jamterlambat }}
-            @else
-              Tepat Waktu
-            @endif
-          </td>
-          <td>
-            @if ($prs->jam_out !== null)
-              @php
-                  $jml_jamkerja = selisih($prs->jam_in, $prs->jam_out);
-              @endphp                
-            @else
-              @php
-                  $jml_jamkerja = 0;
-              @endphp
-            @endif
-              {{ $jml_jamkerja }}
-          </td>
+            <th rowspan="2">NIK</th>
+            <th rowspan="2">Nama Karyawan</th>
+            <th colspan="31">Tanggal</th>
         </tr>
-      @endforeach
+        <tr>
+            <?php
+            for($i=1; $i<=31; $i++){
+            ?>
+            <th>{{ $i }}</th>
+            <?php
+                }
+            ?>
+        </tr>
     </table>
+ 
     <table width="100%" style="margin-top: 100px" >
       <tr>
-        <td colspan="2" style="text-align: right">Jakarta Selatan, {{ date('d-m-Y') }}</td>
+        <td></td>
+        <td style="text-align: center">Jakarta Selatan, {{ date('d-m-Y') }}</td>
       </tr>
       <tr>
         <td style="text-align: center; vertical-align:bottom" height="100" >

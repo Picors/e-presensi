@@ -41,8 +41,8 @@
         <button id="takeabsen" class="btn btn-danger btn-block">
             <ion-icon name="camera-outline"></ion-icon>
             Absen pulang
-        </button>
         @else
+        </button>
         <button id="takeabsen" class="btn btn-primary btn-block">
             <ion-icon name="camera-outline"></ion-icon>
             Absen Masuk
