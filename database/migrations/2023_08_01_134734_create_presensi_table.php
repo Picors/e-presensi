@@ -16,7 +16,7 @@ return new class extends Migration
             $table->char('nik')->nullable(false);
             $table->date('tgl_presensi')->nullable(false);
             $table->time('jam_in')->nullable(false);
-            $table->time('jam_out')->nullable(false);
+            $table->time('jam_out')->nullable(true);
             $table->string('foto_in')->nullable(false);
             $table->string('foto_out')->nullable(true);
             $table->text('lokasi_in')->nullable(false);
