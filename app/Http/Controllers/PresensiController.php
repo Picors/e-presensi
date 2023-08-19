@@ -310,7 +310,7 @@ class PresensiController extends Controller
             'nik' => $nik,
             'tgl_izin' => $tgl_izin,
             'status' => $status,
-            'keterangan => $keterangan'
+            'keterangan' => $keterangan
         ];
 
         $simpan = DB::table('pengajuan_izin')->insert($data);
@@ -322,5 +322,14 @@ class PresensiController extends Controller
         {
             return redirect('/presensi/izin')->with(['error'=>'Data Gagal Di Simpan']);
         }
+    }
+
+    public function izinsakit()
+    {
+        $izinsakit = DB::table('pengajuan_izin')
+            ->join('karyawan','pengajuan_izin.nik', '=', 'karyawan.nik')
+            ->orderBy('tgl_izin', 'desc')
+            ->get();
+        return view('presensi.izinsakit', compact('izinsakit'));
     }
 }
