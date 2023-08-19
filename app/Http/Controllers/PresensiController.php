@@ -323,4 +323,13 @@ class PresensiController extends Controller
             return redirect('/presensi/izin')->with(['error'=>'Data Gagal Di Simpan']);
         }
     }
+
+    public function izinsakit()
+    {
+        $izinsakit = DB::table('pengajuan_izin')
+            ->join('karyawan','pengajuan_izin.nik', '=', 'karyawan.nik')
+            ->orderBy('tgl_izin', 'desc')
+            ->get();
+        return view('presensi.izinsakit', compact('izinsakit'));
+    }
 }
