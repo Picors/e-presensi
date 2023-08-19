@@ -310,7 +310,7 @@ class PresensiController extends Controller
             'nik' => $nik,
             'tgl_izin' => $tgl_izin,
             'status' => $status,
-            'keterangan => $keterangan'
+            'keterangan' => $keterangan
         ];
 
         $simpan = DB::table('pengajuan_izin')->insert($data);
