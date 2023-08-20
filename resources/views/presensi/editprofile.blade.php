@@ -25,7 +25,7 @@
             {{ $messagesuccess }}
         </div>
         @endif
-        @if (Session::get('success'))
+        @if (Session::get('error'))
         <div class="alert alert-danger">
             {{ $messageerror }}
         </div>
