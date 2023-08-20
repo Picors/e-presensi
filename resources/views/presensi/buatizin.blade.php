@@ -50,12 +50,36 @@
 @endsection
 @push('myscript')
 <script>
-            var currYear = (new Date()).getFullYear();
+        var currYear = (new Date()).getFullYear();
 
         $(document).ready(function() {
         $(".datepicker").datepicker({
 
             format: "yyyy-mm-dd"
+        });
+
+        $('#tgl_izin').change(function(e) {
+            var tgl_izin = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: '/presensi/cekpengajuanizin',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    tgl_izin: tgl_izin
+                },
+                cache: false,
+                success: function(respond) {
+                    if (respond >= 1){
+                        Swal.fire({
+                            title: 'Oops !',
+                            text: 'Anda Sudah Melakukan Pengajuan Izin Di Tanggal Ini',
+                            icon: 'warning'
+                        }).then((result) => {
+                            $("#tgl_izin").val("");
+                        });
+                    }
+                }    
+            });
         });
 
         $("#frmIzin").submit(function()
