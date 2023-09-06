@@ -111,7 +111,7 @@ class PresensiController extends Controller
         } else {
             if($cek > 0){
                 if($jam < $jamkerja->jam_pulang){
-                    echo "error | Belum Waktunya Pulang";
+                    echo "error | Belum Waktunya Pulang|out";
                 } else{
                     $data_pulang =
                     [
@@ -119,41 +119,39 @@ class PresensiController extends Controller
                         'foto_out' => $fileName,
                         'lokasi_out' => $lokasi,
                     ];
-                }
-            
-            $update = DB::table('presensi')->where('tgl_presensi',$tgl_presensi)->where('nik',$nik)->update($data_pulang);
-            if($update){
-                echo "success|Terimakasih, Hati Hati di jalan|out";
-                Storage::put($file, $image_base64);
-            } else {
-                echo "error|Maaf Gagal Absen Hubungi Tim IT|out";
-            }
-        }else {
-            if ($jam < $jamkerja->awal_jam_kerja){
-                echo "error | Maaf Belum Waktunya Melakukan Presensi | in";
-            }else if($jam < $jamkerja->akhir_jam_kerja){
-                echo "error | Maaf Waktu Untuk Presensi Sudah Habis";
-            } else {
-                $data =
-                [
-                    'nik' => $nik,
-                    'tgl_presensi' => $tgl_presensi,
-                    'jam_in' => $jam,
-                    'foto_in' => $fileName,
-                    'lokasi_in' => $lokasi,
-                ];
-                $simpan = DB::table('presensi')->insert($data);
-                if($simpan){
-                    echo "success|Terima Kaish Selamat Bekerja :)|in";
-                    Storage::put($file, $image_base64);
+                    $update = DB::table('presensi')->where('tgl_presensi',$tgl_presensi)->where('nik',$nik)->update($data_pulang);
+                    if($update){
+                        echo "success|Terimakasih, Hati Hati di jalan|out";
+                        Storage::put($file, $image_base64);
+                    } else {
+                        echo "error|Maaf Gagal Absen Hubungi Tim IT|out";
+                    }
+                }    
+            }else {
+                if ($jam < $jamkerja->awal_jam_masuk){
+                    echo "error | Maaf Belum Waktunya Melakukan Presensi|in";
+                }else if($jam > $jamkerja->akhir_jam_masuk){
+                    echo "error | Maaf Waktu Untuk Presensi Sudah Habis|in";
                 } else {
-                    echo "error|Maaf Gagal Absen Hubungi Tim IT|in";
-                }
-            }
-            
+                    $data =
+                    [
+                        'nik' => $nik,
+                        'tgl_presensi' => $tgl_presensi,
+                        'jam_in' => $jam,
+                        'foto_in' => $fileName,
+                        'lokasi_in' => $lokasi,
+                        'kode_jam_kerja' => $jamkerja->kode_jam_kerja
+                    ];
+                    $simpan = DB::table('presensi')->insert($data);
+                    if($simpan){
+                        echo "success|Terima Kaish Selamat Bekerja :)|in";
+                        Storage::put($file, $image_base64);
+                    } else {
+                        echo "error|Maaf Gagal Absen Hubungi Tim IT|in";
+                    }
+                }            
             }
         }
-
     }
          //Menghitung Jarak titik kordinat
     function distance($lat1, $lon1, $lat2, $lon2)
@@ -184,7 +182,8 @@ class PresensiController extends Controller
     {
         $tanggal = $request->tanggal;
         $presensi = DB::table('presensi')
-            ->select('presensi.*', 'nama_lengkap', 'nama_dept')
+            ->select('presensi.*', 'nama_lengkap', 'nama_dept', 'jam_masuk', 'nama_jam_kerja', 'jam_pulang')
+            ->leftJoin('jam_kerja', 'presensi.kode_jam_kerja', '=', 'jam_kerja.kode_jam_kerja')
             ->join('karyawan', 'presensi.nik', '=', 'karyawan.nik')
             ->join('departemen', 'karyawan.kode_dept', '=', 'departemen.kode_dept')
             ->where('tgl_presensi', $tanggal)
@@ -221,11 +220,12 @@ class PresensiController extends Controller
         ->first();
 
         $presensi = DB::table('presensi')
-        ->where('nik', $nik)
-        ->whereRaw('MONTH(tgl_presensi)="'. $bulan .'"')
-        ->whereRaw('YEAR(tgl_presensi)="'. $tahun .'"')
-        ->orderBy('tgl_presensi')
-        ->get();
+            ->leftJoin('jam_kerja', 'presensi.kode_jam_kerja', '=', 'jam_kerja.kode_jam_kerja')
+            ->where('nik', $nik)
+            ->whereRaw('MONTH(tgl_presensi)="'. $bulan .'"')
+            ->whereRaw('YEAR(tgl_presensi)="'. $tahun .'"')
+            ->orderBy('tgl_presensi')
+            ->get();
 
         if(isset($_POST['exportexcel']))
         {
@@ -251,7 +251,7 @@ class PresensiController extends Controller
         $namabulan = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
         $rekap = DB::table('presensi')
-            ->selectRaw('presensi.nik,nama_lengkap,
+            ->selectRaw('presensi.nik,nama_lengkap,jam_masuk,jam_pulang,
                 MAX(IF(DAY(tgl_presensi) = 1, CONCAT(jam_in, "-", IFNULL(jam_out, "00:00:00")), "")) as tgl_1,
                 MAX(IF(DAY(tgl_presensi) = 2, CONCAT(jam_in, "-", IFNULL(jam_out, "00:00:00")), "")) as tgl_2,
                 MAX(IF(DAY(tgl_presensi) = 3, CONCAT(jam_in, "-", IFNULL(jam_out, "00:00:00")), "")) as tgl_3,
@@ -285,9 +285,10 @@ class PresensiController extends Controller
                 MAX(IF(DAY(tgl_presensi) = 31, CONCAT(jam_in, "-", IFNULL(jam_out, "00:00:00")), "")) as tgl_31')
 
             ->join('karyawan', 'presensi.nik', '=', 'karyawan.nik')
+            ->leftJoin('jam_kerja', 'presensi.kode_jam_kerja', '=', 'jam_kerja.kode_jam_kerja')
             ->whereRaw('MONTH(tgl_presensi)="' . $bulan . '"')
             ->whereRaw('YEAR(tgl_presensi)="' . $tahun . '"')
-            ->groupByRaw('presensi.nik,nama_lengkap')
+            ->groupByRaw('presensi.nik,nama_lengkap,jam_masuk,jam_pulang')
             ->get();
 
         if(isset($_POST['exportexcel']))
@@ -386,13 +387,23 @@ class PresensiController extends Controller
         $tgl_izin = $request->tgl_izin;
         $status = $request->status;
         $keterangan = $request->keterangan;
+        $status_approved = 0;
+        if ($request->hasFile('surat')){
+            $surat = $nik . '-'. $tgl_izin . '.' . $request->file('surat')->getClientOriginalExtension();
+
+            $folderPath = "public/uploads/suratizin/";
+            $request->file('surat')->storeAs($folderPath, $surat);
+        }
 
         $data =
         [
             'nik' => $nik,
             'tgl_izin' => $tgl_izin,
             'status' => $status,
-            'keterangan' => $keterangan
+            'keterangan' => $keterangan,
+            'surat' => $surat,
+            'status_approved' => $status_approved
+
         ];
 
         $simpan = DB::table('pengajuan_izin')->insert($data);
@@ -409,7 +420,7 @@ class PresensiController extends Controller
     public function izinsakit(Request $request)
     {
         $query = Pengajuanizin::query();
-        $query->select('id', 'tgl_izin','pengajuan_izin.nik', 'nama_lengkap', 'jabatan', 'status', 'status_approved', 'keterangan');
+        $query->select('id', 'tgl_izin','pengajuan_izin.nik', 'nama_lengkap', 'jabatan', 'status', 'status_approved', 'keterangan', 'surat', 'alasan');
         $query->join('karyawan', 'pengajuan_izin.nik', '=', 'karyawan.nik');
         if (!empty($request->dari)&& !empty($request->sampai)){
             $query->whereBetween('tgl_izin', [$request->dari, $request->sampai]);
@@ -434,10 +445,12 @@ class PresensiController extends Controller
     public function approveizinsakit(Request $request)
     {
         $status_approved = $request->status_approved;
+        $alasan = $request->alasan;
         $id_izinsakit_form = $request->id_izinsakit_form;
         $update = DB::table('pengajuan_izin')
             ->where('id', $id_izinsakit_form)
             ->update([
+                'alasan' => $alasan,
                 'status_approved' => $status_approved
             ]);
         if ($update)

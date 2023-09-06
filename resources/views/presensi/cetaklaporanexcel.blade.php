@@ -139,33 +139,36 @@
         @php
         $path_in = Storage::url('uploads/absensi/'. $prs->foto_in);
         $path_out = Storage::url('uploads/absensi/'. $prs->foto_out);
-        $jamterlambat = selisih('07:00:00', $prs->jam_in);
+        $jamterlambat = selisih($prs->jam_masuk, $prs->jam_in);
         @endphp
         <tr>
-          <td>{{ $loop->iteration }}</td>
-          <td>{{ date("d-m-y", strtotime($prs->tgl_presensi)) }}</td>
-          <td>{{ $prs->nik }}</td>
-          <td>{{ $prs->jam_in }}</td>
-          <td>{{ $prs->jam_out !== null ? $prs->jam_out : 'Belum Absen' }}</td>
+          <td>{{ $r->nik }}</td>
+          <td>{{ $r->nama_lengkap }}</td>
+          <?php
+          $totalhadir = 0;
+          $totalterlambat = 0;
+          for($i=1; $i<=31; $i++){
+            $tgl = "tgl_".$i;
+            if(empty($r->$tgl)){
+              $hadir = ['', ''];
+              $totalhadir +=0;
+            } else {
+              $hadir = explode("-", $r->$tgl);
+              $totalhadir += 1;
+              if($hadir[0] > $r->jam_masuk){
+                $totalterlambat += 1;
+              }
+            }
+          ?>
           <td>
-            @if ($prs->jam_in > '07:00:00')
-              Terlambat {{ $jamterlambat }}
-            @else
-              Tepat Waktu
-            @endif
+            <span style="color: {{ $hadir[0] > $r->jam_masuk ? "red" : "" }}">{{ !empty($hadir[0]) ? $hadir[1] : '-' }}</span><br>
+            <span style="color: {{ $hadir[1] < $r->jam_pulang ? "red" : "" }}">{{ !empty($hadir[1]) ? $hadir[1] : '-' }}</span>
           </td>
-          <td>
-            @if ($prs->jam_out !== null)
-              @php
-                  $jml_jamkerja = selisih($prs->jam_in, $prs->jam_out);
-              @endphp                
-            @else
-              @php
-                  $jml_jamkerja = 0;
-              @endphp
-            @endif
-              {{ $jml_jamkerja }}
-          </td>
+          <?php
+              }
+          ?>
+          <td>{{ $totalhadir }}</td>
+          <td>{{ $totalterlambat }}</td>
         </tr>
       @endforeach
     </table>

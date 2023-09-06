@@ -122,6 +122,7 @@ class KaryawanController extends Controller
         } catch (\Exception $e) {
 
             return Redirect::back()->with(['warning'=> 'Data Gagal Diupdate']);
+            dd($e);
 
         }
     }

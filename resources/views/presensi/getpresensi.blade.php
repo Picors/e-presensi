@@ -24,6 +24,7 @@
         <td>{{ $prs->nik }}</td>
         <td>{{ $prs->nama_lengkap }}</td>
         <td>{{ $prs->nama_dept }}</td>
+        <td>{{ $prs->nama_jam_kerja }} ({{ $prs->jam_masuk }} s/d {{ $prs->jam_pulang }})</td>
         <td>{{ $prs->jam_in }}</td>
         <td>
             <img src="{{ url($foto_in) }}" class="avatar" alt="">
@@ -43,9 +44,9 @@
         </td>
 
         <td>
-            @if ($prs->jam_in > '07:00:00')
+            @if ($prs->jam_in > $prs->jam_masuk)
                 @php
-                    $jamterlambat = selisih('07:00:00', $prs->jam_in);
+                    $jamterlambat = selisih($prs->jam_masuk, $prs->jam_in);
                 @endphp
                 <span class="badge bg-danger">Terlambat {{ $jamterlambat }}</span>
             @else

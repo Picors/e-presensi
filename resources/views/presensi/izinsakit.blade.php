@@ -125,12 +125,17 @@
                             <th>Jabatan</th>
                             <th>Status</th>
                             <th>Keterangan</th>
+                            <th>Surat</th>
+                            <th>Alasan Ditolak</th>
                             <th>Status Approve</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($izinsakit as $is)
+                        @php
+                            $path = Storage::url('uploads/suratizin/'. $is->surat);
+                        @endphp
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{date('d-m-Y',strtotime($is->tgl_izin)) }}</td>
@@ -139,6 +144,10 @@
                                 <td>{{ $is->jabatan }}</td>
                                 <td>{{ $is->status == "i" ? "izin" : "Sakit" }}</td>
                                 <td>{{ $is->keterangan }}</td>
+                                <td>
+                                    <img src="{{ url($path) }}" class="" alt="">
+                                </td>
+                                <td><p>{{ $is->alasan }}</p></td>
                                 <td>
                                     @if ($is->status_approved == 1)
                                         <span class="badge bg-success">Disetujui</span>
@@ -151,7 +160,7 @@
                                 <td>
                                     @if ($is->status_approved == 0)
                                         <a href="#" class="btn btn-sm btn-primary" id="approve" id_izinsakit="{{ $is->id }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-external-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-external-link" width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                 <path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6"></path>
                                                 <path d="M11 13l9 -9"></path>
@@ -188,16 +197,25 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+
+            @php
+                $path = Storage::url('uploads/suratizin/'. $is->surat);
+            @endphp
+            <img src="{{ url($path) }}" class="" alt="">
+
             <form action="/presensi/approveizinsakit" method="POST">
                 @csrf
                 <input type="hidden" id="id_izinsakit_form" name="id_izinsakit_form">
                 <div class="row">
                     <div class="col-12">
+                        
+
                         <div class="form-group">
-                            <select name="status_approved" id="status_approved" class="form-select">
+                            <select name="status_approved" id="status_approved" class="form-select mt-3">
                                 <option value="1">Disetujui</option>
                                 <option value="2">Ditolak</option>
                             </select>
+                            <input type="text" value="" id="alasan" class="form-control mt-2" name="alasan" placeholder="Alasan Ditolak (Opsional)">
                         </div>
                     </div>
                 </div>

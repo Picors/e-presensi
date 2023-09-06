@@ -83,7 +83,7 @@
                       <label class="form-label">
                         Password
                         <span class="form-label-description">
-                          <a href="./forgot-password.html">I forgot password</a>
+                          {{-- <a href="./forgot-password.html">I forgot password</a> --}}
                         </span>
                       </label>
                       <div class="input-group input-group-flat">
@@ -101,8 +101,14 @@
                         <span class="form-check-label">Remember me on this device</span>
                       </label>
                     </div>
-                    <div class="form-footer">
-                      <button type="submit" class="btn btn-primary w-100">Sign in</button>
+                    <div class="form-footer" style="color: green">
+                      <style>
+                        .btn {
+                          background-color: green;
+                          color: white;
+                        }
+                      </style>
+                      <button type="submit" class="btn w-100">Sign in</button>
                     </div>
                   </form>
                 </div>
@@ -110,7 +116,7 @@
             </div>
           </div>
           <div class="col-lg d-none d-lg-block">
-            <img src="{{ asset('tabler/static/illustrations/undraw_secure_login_pdn4.svg') }}" height="300" class="d-block mx-auto" alt="">
+            <img src="{{ asset('assets/img/yodyakarya.png') }}" height="300" class="d-block mx-auto" alt="">
           </div>
         </div>
       </div>

@@ -43,14 +43,15 @@
                     <small class="text-muted">{{ $d->keterangan }}</small>
                 </div>
                 @if ($d->status_approved == 0)
-                        <span class="badge bg-warning"> Waiting</span>
-                        @elseif ($d->status_approved==1)
-                        <span class="badge bg-success"> Approved</span>
-                        @elseif ($d->status_approved==2)
-                        <span class="badge bg-danger"> Decline</span>
+                    <span class="badge bg-warning"> Waiting</span>
+                @elseif ($d->status_approved==1)
+                    <span class="badge bg-success"> Approved</span>
+                @elseif ($d->status_approved==2)
+                    <p>Alasan Ditolak : {{ $d->alasan }}</p>
+                    <span class="badge bg-danger"> Decline</span>
                 @endif
 
-            </div>
+            </>
         </div>
     </li>
 </ul>

@@ -25,7 +25,7 @@
 @section('content')
 <div class="row" style="margin-top:70px">
     <div class="col">
-        <form method="POST" action="/presensi/storeizin" id="frmIzin">
+        <form method="POST" action="/presensi/storeizin" id="frmIzin" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <input type="text" id="tgl_izin" name="tgl_izin" class="form-control datepicker" placeholder="Tanggal">
@@ -39,6 +39,17 @@
             </div>
             <div class="form-group">
                 <textarea name="keterangan" id="keterangan" cols="30" rows="5" class="form-control" placeholder="Ketereangan"></textarea>
+            </div>
+            <div class="custom-file-upload" id="fileUpload1">
+                <input type="file" required name="surat" id="surat" accept=".png, .jpg, .jpeg, .pdf">
+                <label for="surat">
+                    <span>
+                        <strong>
+                            <ion-icon name="cloud-upload-outline" role="img" class="md hydrated" aria-label="cloud upload outline"></ion-icon>
+                            <i>Upload Surat</i>
+                        </strong>
+                    </span>
+                </label>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary w-100">Kirim</button>

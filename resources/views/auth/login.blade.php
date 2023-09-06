@@ -16,8 +16,12 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="manifest" href="__manifest.json">
 </head>
-
-<body class="bg-success" >
+<style>
+    #bg {
+        background-color: rgb(4, 81, 4);
+    }
+</style>
+<body id="bg" >
 
     <!-- loader -->
     <div id="loader">
@@ -31,9 +35,14 @@
 
         <div class="login-form mt-1">
             <div class="section">
-                <img src="{{asset ('assets/img/login/login.png') }}" alt="image" class="form-image">
+                <img src="{{asset ('assets/img/logo.png') }}" alt="image" class="form-image">
             </div>
             <div class="section mt-1">
+                <style>
+                    h1,h4 {
+                        color: white;
+                    }
+                </style>
                 <h1>Login</h1>
                 <h4>Silahkan Login</h4>
             </div>
@@ -68,13 +77,19 @@
 
                     <div class="form-links mt-2">
                         <div>
-                            <a href="page-register.html">Register Now</a>
+                            {{-- <a href="page-register.html">Register Now</a> --}}
                         </div>
-                        <div><a href="page-forgot-password.html" class="text-muted">Forgot Password?</a></div>
+                        {{-- <div><a href="page-forgot-password.html" class="text-muted">Forgot Password?</a></div> --}}
                     </div>
 
                     <div class="form-button-group">
-                        <button type="submit" class="btn btn-success btn-block btn-lg">Log in <img src="{{asset ('assets/img/login/panah.png') }}" alt="image"></button>
+                        <style>
+                            #btn {
+                                background-color: green;
+                                color: white;
+                            }
+                        </style>
+                        <button type="submit" class="btn btn-block btn-lg" id="btn">Log in <img src="{{asset ('assets/img/login/panah.png') }}" alt="image"></button>
                     </div>
 
                 </form>
