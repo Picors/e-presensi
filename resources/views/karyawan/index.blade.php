@@ -93,6 +93,7 @@
                                             <th>No. HP</th>
                                             <th>Foto</th>
                                             <th>Departemen</th>
+                                            <th>Cabang</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -116,26 +117,39 @@
                                                     
                                                 </td>
                                                 <td>{{ $kry->nama_dept }}</td>
+                                                <td>{{ $kry->nama_cabang }}</td>
                                                 <td>
                                                     <div class="btn-group">
                                                         <style>
                                                             .btn-edit,
                                                             .btn-delete {
                                                                 width: 30px; /* Sesuaikan lebar yang diinginkan */
-                                                                height: 30px; /* Sesuaikan tinggi yang diinginkan */
+                                                                height: 30px; /*Sesuaikan tinggi yang diinginkan */
+                                                                margin-right: 5px;
+                                                                display: flex;
+                                                                justify-content: center;
+                                                                align-items: center;
                                                             }
+                                                            
                                                         </style>
-                                                        <a href="#" class="edit btn btn-info btn-sm btn-edit" nik="{{ $kry->nik }}">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                        <a href="#" class="edit btn btn-info  btn-edit" nik="{{ $kry->nik }}">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                                                    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                                                    <path d="M16 5l3 3"></path>
+                                                                 </svg>
+                                                        </a>
+                                                        <a href="/konfigurasi/{{ $kry->nik }}/setjamkerja" class="btn btn-success btn-edit" nik="{{ $kry->nik }}">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
-                                                                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
-                                                                <path d="M16 5l3 3"></path>
+                                                                <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"></path>
+                                                                <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
                                                              </svg>
                                                         </a>
                                                         <form action="/karyawan/{{ $kry->nik }}/delete" style="margin-left:5px" method="POST">
                                                             @csrf
-                                                            <a class="btn btn-danger btn-sm delete-confirm btn-delete">
+                                                            <a class="btn btn-danger delete-confirm btn-delete" >
                                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                                     <path d="M20 6a1 1 0 0 1 .117 1.993l-.117 .007h-.081l-.919 11a3 3 0 0 1 -2.824 2.995l-.176 .005h-8c-1.598 0 -2.904 -1.249 -2.992 -2.75l-.005 -.167l-.923 -11.083h-.08a1 1 0 0 1 -.117 -1.993l.117 -.007h16z" stroke-width="0" fill="currentColor"></path>
@@ -249,7 +263,17 @@
                     <select name="kode_dept" id="kode_dept" class="form-select">
                         <option value="">Departemen</option>
                         @foreach ($departemen as $dept)
-                            <option {{ Request('kode_dept')==$dept->kode_dept ? 'selected' : '' }} value="{{ $dept->kode_dept }}">{{ $dept->nama_dept }}</option>
+                            <option  value="{{ $dept->kode_dept }}">{{ $dept->nama_dept }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <select name="kode_cabang" id="kode_cabang" class="form-select">
+                        <option value="">Cabang</option>
+                        @foreach ($cabang as $cb)
+                            <option value="{{ $cb->kode_cabang }}">{{ strtoupper($cb->nama_cabang) }}</option>
                         @endforeach
                     </select>
                 </div>
